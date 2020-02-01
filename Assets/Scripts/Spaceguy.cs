@@ -4,34 +4,43 @@ public class Spaceguy : MonoBehaviour
 {
     public float speed = 6.0f;
     public LayerMask blockingLayer;
-    private Vector3 moveDirection = Vector3.zero;
+    
     private BoxCollider2D boxCollider;
-    private Rigidbody2D rb2D;
+    private GameObject fire;
 
     private void Start()
     {
         boxCollider = GetComponent<BoxCollider2D>();
-        rb2D = GetComponent<Rigidbody2D>();
+        boxCollider.enabled = false;
+
+        fire = transform.GetChild(0).gameObject;
     }
 
     private void Update()
     {
-        moveDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        moveDirection *= speed * Time.deltaTime;
+        var moveDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        if (moveDirection.magnitude > 0.0f)
+        {
+            var canMove = true;
+            var movement = moveDirection * speed * Time.deltaTime;
+            var hit = Physics2D.Raycast(transform.position, moveDirection.normalized);
+            if (hit.collider != null)
+            {
+                fire.transform.position = hit.point;
+                if(hit.distance < movement.magnitude)
+                {
+                    canMove = false;
+                }
+            }
+            else
+            {
+                fire.transform.position = transform.position;
+            }
 
-        var start = transform.position;
-
-        RaycastHit2D hit;
-        boxCollider.enabled = false;
-        Debug.Log("start: " + start);
-        Debug.Log("move: " + moveDirection);
-        hit = Physics2D.Raycast(start, moveDirection.normalized);
-        boxCollider.enabled = true;
-
-        //if (hit.transform == null)
-        //{
-            rb2D.transform.Translate(moveDirection);
-            transform.Translate(moveDirection);
-        //}
+            if(canMove)
+            {
+                transform.Translate(movement);
+            }
+        }
     }
 }
