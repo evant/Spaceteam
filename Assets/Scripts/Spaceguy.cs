@@ -23,13 +23,15 @@ public class Spaceguy : MonoBehaviour
 
         RaycastHit2D hit;
         boxCollider.enabled = false;
-        hit = Physics2D.Raycast(start, moveDirection);
+        Debug.Log("start: " + start);
+        Debug.Log("move: " + moveDirection);
+        hit = Physics2D.Raycast(start, moveDirection.normalized);
         boxCollider.enabled = true;
 
-        if (hit.transform == null)
-        {
+        //if (hit.transform == null)
+        //{
             rb2D.transform.Translate(moveDirection);
             transform.Translate(moveDirection);
-        }
+        //}
     }
 }
