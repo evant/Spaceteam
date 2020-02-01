@@ -43,3 +43,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7eb93cfd470134c8f51a45bdce00d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hazardType: 0
+  fireHazard: {fileID: 8024054496292945437, guid: 71e3f1d89caee1b43841222cd097292f,
+    type: 3}
+  lightningHazard: {fileID: 5989234043785132584, guid: 9d69b62ddbdfe7c42b76c57c8e3b4cc4,
+    type: 3}
+  cloudHazard: {fileID: 5778104370964235863, guid: 2274587ee6bb6524899fd4fe987edcb4,
+    type: 3}

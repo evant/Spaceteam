@@ -1508,7 +1508,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 4
-  reach: 0.8
+  reach: 1.3
   blockingLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -1623,6 +1623,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2008529364}
     m_Modifications:
+    - target: {fileID: 1253707993773603943, guid: cfa95059c0acff549baf9bbae5619e1a,
+        type: 3}
+      propertyPath: hazardType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5054576556994126268, guid: cfa95059c0acff549baf9bbae5619e1a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1681,7 +1686,7 @@ PrefabInstance:
     - target: {fileID: 5539028159430974672, guid: cfa95059c0acff549baf9bbae5619e1a,
         type: 3}
       propertyPath: m_Name
-      value: FireSpawnPoint (1)
+      value: HazardSpawnPoint
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfa95059c0acff549baf9bbae5619e1a, type: 3}
@@ -1802,7 +1807,7 @@ PrefabInstance:
     - target: {fileID: 5539028159430974672, guid: cfa95059c0acff549baf9bbae5619e1a,
         type: 3}
       propertyPath: m_Name
-      value: FireSpawnPoint (4)
+      value: HazardSpawnPoint
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfa95059c0acff549baf9bbae5619e1a, type: 3}
@@ -1877,15 +1882,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2008529364}
     m_Modifications:
+    - target: {fileID: 1253707993773603943, guid: cfa95059c0acff549baf9bbae5619e1a,
+        type: 3}
+      propertyPath: hazardType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5054576556994126268, guid: cfa95059c0acff549baf9bbae5619e1a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.0993041
+      value: -5.07
       objectReference: {fileID: 0}
     - target: {fileID: 5054576556994126268, guid: cfa95059c0acff549baf9bbae5619e1a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.517944
+      value: -0.89
       objectReference: {fileID: 0}
     - target: {fileID: 5054576556994126268, guid: cfa95059c0acff549baf9bbae5619e1a,
         type: 3}
@@ -1935,7 +1945,7 @@ PrefabInstance:
     - target: {fileID: 5539028159430974672, guid: cfa95059c0acff549baf9bbae5619e1a,
         type: 3}
       propertyPath: m_Name
-      value: FireSpawnPoint (3)
+      value: HazardSpawnPoint
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfa95059c0acff549baf9bbae5619e1a, type: 3}
@@ -3135,6 +3145,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2008529364}
     m_Modifications:
+    - target: {fileID: 1253707993773603943, guid: cfa95059c0acff549baf9bbae5619e1a,
+        type: 3}
+      propertyPath: hazardType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5054576556994126268, guid: cfa95059c0acff549baf9bbae5619e1a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3193,7 +3208,7 @@ PrefabInstance:
     - target: {fileID: 5539028159430974672, guid: cfa95059c0acff549baf9bbae5619e1a,
         type: 3}
       propertyPath: m_Name
-      value: FireSpawnPoint (6)
+      value: HazardSpawnPoint
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfa95059c0acff549baf9bbae5619e1a, type: 3}
@@ -3262,7 +3277,7 @@ PrefabInstance:
     - target: {fileID: 5539028159430974672, guid: cfa95059c0acff549baf9bbae5619e1a,
         type: 3}
       propertyPath: m_Name
-      value: FireSpawnPoint (2)
+      value: HazardSpawnPoint
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfa95059c0acff549baf9bbae5619e1a, type: 3}
@@ -3276,7 +3291,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2008529364}
   m_Layer: 0
-  m_Name: FireSpawnPoints
+  m_Name: HazardSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3876,7 +3891,7 @@ PrefabInstance:
     - target: {fileID: 5539028159430974672, guid: cfa95059c0acff549baf9bbae5619e1a,
         type: 3}
       propertyPath: m_Name
-      value: FireSpawnPoint (5)
+      value: HazardSpawnPoint
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfa95059c0acff549baf9bbae5619e1a, type: 3}
@@ -3887,6 +3902,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2008529364}
     m_Modifications:
+    - target: {fileID: 1253707993773603943, guid: cfa95059c0acff549baf9bbae5619e1a,
+        type: 3}
+      propertyPath: hazardType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5054576556994126268, guid: cfa95059c0acff549baf9bbae5619e1a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3945,7 +3965,7 @@ PrefabInstance:
     - target: {fileID: 5539028159430974672, guid: cfa95059c0acff549baf9bbae5619e1a,
         type: 3}
       propertyPath: m_Name
-      value: FireSpawnPoint
+      value: HazardSpawnPoint
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfa95059c0acff549baf9bbae5619e1a, type: 3}

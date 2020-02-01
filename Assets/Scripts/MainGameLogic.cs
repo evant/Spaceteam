@@ -22,14 +22,14 @@ public class MainGameLogic : MonoBehaviour
             _timeToNextFire -= Time.deltaTime;
             if (_timeToNextFire < 0)
             {
-                var spawns = FindObjectsOfType<FireSpawnPoint>();
+                var spawns = FindObjectsOfType<HazardSpawnPoint>();
                 for (int i = 0; i < 5; ++i)
                 {
                     var index = Random.Range(0, spawns.Length);
                     var spawnPoint = spawns[index];
-                    if (spawnPoint.transform.childCount == 0)
+                    if (!spawnPoint.HasHazard)
                     {
-                        Object.Instantiate(firePrefab, spawnPoint.transform);
+                        spawnPoint.SpawnHazard();
                         break;
                     }
                 }
