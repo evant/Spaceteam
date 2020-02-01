@@ -42,7 +42,7 @@ public class Spaceguy : MonoBehaviour
             if (hit.collider != null)
             {
                 fire.transform.position = hit.point;
-                if(hit.distance < movement.magnitude)
+                if (hit.distance < movement.magnitude + 0.5)
                 {
                     canMove = false;
                 }
@@ -52,7 +52,7 @@ public class Spaceguy : MonoBehaviour
                 fire.transform.position = transform.position;
             }
 
-            if(canMove)
+            if (canMove)
             {
                 transform.Translate(movement);
             }
