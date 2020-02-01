@@ -3,10 +3,13 @@
 public class Spaceguy : MonoBehaviour
 {
     public float speed = 6.0f;
+    public float reach = 0.8f;
     public LayerMask blockingLayer;
     
     private BoxCollider2D boxCollider;
     private GameObject fire;
+    private GameObject reticle;
+    private GameObject currentTarget;
 
     private void Start()
     {
@@ -14,6 +17,18 @@ public class Spaceguy : MonoBehaviour
         boxCollider.enabled = false;
 
         fire = transform.GetChild(0).gameObject;
+        reticle = FindChildTagged("Reticle");
+    }
+
+    private GameObject FindChildTagged(string tag)
+    {
+        foreach(Transform child in transform)
+        {
+            if (child.tag == tag)
+                return child.gameObject;
+        }
+
+        return null;
     }
 
     private void Update()
@@ -41,6 +56,36 @@ public class Spaceguy : MonoBehaviour
             {
                 transform.Translate(movement);
             }
+        }
+
+        var fires = GameObject.FindGameObjectsWithTag("Hazard");
+        float closestDistance = float.PositiveInfinity;
+        GameObject closestObject = null;
+        foreach(var fire in fires)
+        {
+            var distanace = Vector3.Distance(fire.transform.position, transform.position);
+            if(distanace < closestDistance)
+            {
+                closestObject = fire;
+                closestDistance = distanace;
+            }
+        }
+
+        if (closestDistance < reach)
+        {
+            if (currentTarget != closestObject)
+            {
+                currentTarget = closestObject;
+                reticle.SetActive(true);
+                reticle.GetComponent<Animation>().Play("Target Animation");
+            }
+            reticle.transform.position = currentTarget.transform.position;
+        }
+        else
+        {
+            currentTarget = null;
+            reticle.transform.localPosition = Vector3.zero;
+            reticle.SetActive(false);
         }
     }
 }
