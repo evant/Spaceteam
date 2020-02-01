@@ -40,11 +40,12 @@ public class Spaceguy : MonoBehaviour
         {
             var canMove = true;
             var movement = moveDirection * speed * Time.deltaTime;
-            var hit = Physics2D.Raycast(transform.position, moveDirection.normalized);
+            var center = new Vector2(transform.position.x, transform.position.y - 0.2f);
+            var hit = Physics2D.Raycast(center, moveDirection.normalized);
             if (hit.collider != null)
             {
                 fire.transform.position = hit.point;
-                if (hit.distance < movement.magnitude + 0.5)
+                if (hit.distance < movement.magnitude + 0.2)
                 {
                     canMove = false;
                 }
