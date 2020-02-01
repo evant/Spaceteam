@@ -5,11 +5,12 @@ public class Spaceguy : MonoBehaviour
     public float speed = 6.0f;
     public float reach = 0.8f;
     public LayerMask blockingLayer;
-    
+
     private BoxCollider2D boxCollider;
     private GameObject fire;
     private GameObject reticle;
     private GameObject currentTarget;
+    private Animator animator;
 
     private void Start()
     {
@@ -18,6 +19,7 @@ public class Spaceguy : MonoBehaviour
 
         fire = transform.GetChild(0).gameObject;
         reticle = FindChildTagged("Reticle");
+        animator = GetComponent<Animator>();
     }
 
     private GameObject FindChildTagged(string tag)
@@ -56,6 +58,27 @@ public class Spaceguy : MonoBehaviour
             {
                 transform.Translate(movement);
             }
+
+            if (movement.y < 0)
+            {
+                animator.SetInteger("direction", 1);
+            }
+            else if (movement.y > 0)
+            {
+                animator.SetInteger("direction", 2);
+            }
+            else if (movement.x > 0)
+            {
+                animator.SetInteger("direction", 3);
+            }
+            else
+            {
+                animator.SetInteger("direction", 4);
+            }
+        }
+        else
+        {
+            animator.SetInteger("direction", 0);
         }
 
         var fires = GameObject.FindGameObjectsWithTag("Hazard");
