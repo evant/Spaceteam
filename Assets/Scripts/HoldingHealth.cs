@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class HoldingHealth : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class HoldingHealth : MonoBehaviour
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
-            //SceneManager.LoadScene("GameOver"); //???
+            SceneManager.LoadScene("GameOver");
         }
         HealthBar();
     }
