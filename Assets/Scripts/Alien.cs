@@ -79,7 +79,7 @@ public class Alien : MonoBehaviour
         {
             if (hit.distance < movement.magnitude + 0.2)
             {
-                canMove = false;
+                canMove = false;                
             }
         }
 

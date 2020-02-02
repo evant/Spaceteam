@@ -180,7 +180,9 @@ public class Spaceguy : MonoBehaviour
     {
         FindNextTarget();
 
-        if (currentTarget != null && playerInput.currentActionMap["action"].ReadValue<float>() > 0.5f)
+        var currentProblem = currentTarget?.GetComponent<Problem>();
+
+        if (currentProblem != null && playerInput.currentActionMap["action"].ReadValue<float>() > 0.5f)
         {
             if (repairProgress == 0)
             {
@@ -188,10 +190,9 @@ public class Spaceguy : MonoBehaviour
             }
             else
             {
-                repairProgress -= 20f * Time.deltaTime;
+                repairProgress -= currentProblem.repairAmount * Time.deltaTime;
             }
-            repairBar.transform.localScale.Set(repairProgress / 100f, 1f, 1f);
-            repairBar.transform.Translate(new Vector2(0, 1f));
+            repairBar.transform.localScale = new Vector3(repairProgress / 100f, 0.1f, 1f);
             if (repairProgress <= 0)
             {
                 Destroy(currentTarget);
@@ -201,6 +202,7 @@ public class Spaceguy : MonoBehaviour
         else
         {
             repairProgress = 0;
+            repairBar.transform.localScale = Vector3.zero;
         }
     }
 
