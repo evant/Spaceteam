@@ -147,10 +147,9 @@ public class Spaceguy : MonoBehaviour
             }
             else
             {
-                repairProgress -= 20f * Time.deltaTime;
+                repairProgress -= 30f * Time.deltaTime;
             }
-            repairBar.transform.localScale.Set(repairProgress / 100f, 1f, 1f);
-            repairBar.transform.Translate(new Vector2(0, 1f));
+            repairBar.transform.localScale = new Vector3(repairProgress / 100f, 0.1f, 1f);
             if (repairProgress <= 0)
             {
                 Destroy(currentTarget);
@@ -160,6 +159,7 @@ public class Spaceguy : MonoBehaviour
         else
         {
             repairProgress = 0;
+            repairBar.transform.localScale = Vector3.zero;
         }
     }
 
