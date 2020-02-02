@@ -27,7 +27,7 @@ public class Spaceguy : MonoBehaviour
     private void Start()
     {
         boxCollider = GetComponent<BoxCollider2D>();
-        boxCollider.enabled = false;
+        boxCollider.enabled = true;
 
         animator = GetComponent<Animator>();
         animator.SetBool("alive", true);
@@ -65,6 +65,24 @@ public class Spaceguy : MonoBehaviour
 
 
         Debug.Log("on player joined: " + playerInput.playerIndex);
+
+        // randomly spawn where they don't collide with anything
+        boxCollider.enabled = false;
+        var random = new System.Random();
+        var spawnPoint = new Vector2();
+        while (true)
+        {
+            spawnPoint.x = (float) (random.NextDouble() * 3 - 1.5);
+            spawnPoint.y = (float) (random.NextDouble() * 3 - 1.5);
+
+            var hit = Physics2D.OverlapPoint(spawnPoint);
+            if (hit == null)
+            {
+                break;
+            }
+        }
+        boxCollider.enabled = true;
+        transform.position = spawnPoint;
     }
 
     public async void SetDead(bool dead)
@@ -147,7 +165,9 @@ public class Spaceguy : MonoBehaviour
             var canMove = true;
             var movement = moveDirection * speed * Time.deltaTime;
             var center = new Vector2(transform.position.x, transform.position.y - 0.2f);
+            boxCollider.enabled = false;
             var hit = Physics2D.Raycast(center, moveDirection.normalized);
+            boxCollider.enabled = true;
             if (hit.collider != null)
             {
                 if (hit.distance < movement.magnitude + 0.2)
