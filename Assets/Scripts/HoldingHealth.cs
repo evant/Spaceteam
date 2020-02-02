@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HoldingHealth : MonoBehaviour
 {
-    public float health;
+   /* public float health;
     float maxHealth;
     public RawImage bar;
     float barWidth;
@@ -45,4 +45,5 @@ public class HoldingHealth : MonoBehaviour
         innerBar.anchoredPosition = new Vector2(healthLeft/2 +6 , innerBar.anchoredPosition.y);
 
     }
+    */
 }
