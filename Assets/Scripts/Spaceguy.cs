@@ -30,6 +30,7 @@ public class Spaceguy : MonoBehaviour
         boxCollider.enabled = false;
 
         animator = GetComponent<Animator>();
+        animator.SetBool("alive", true);
 
         reticle = FindChildTagged("Reticle");
         repairBar = FindChildTagged("Repair");
@@ -68,8 +69,7 @@ public class Spaceguy : MonoBehaviour
 
     public async void SetDead(bool dead)
     {
-        
-        GetComponent<Animator>().SetBool("alive", !dead);
+        animator.SetBool("alive", !dead);
         // If we're coming back to life, wait a bit before letting us move
         if (!dead)
         {
