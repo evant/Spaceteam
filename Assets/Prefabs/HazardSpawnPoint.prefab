@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5054576556994126268}
   - component: {fileID: 1253707993773603943}
   m_Layer: 0
-  m_Name: FireSpawnPoint
+  m_Name: HazardSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49,4 +49,8 @@ MonoBehaviour:
   lightningHazard: {fileID: 5989234043785132584, guid: 9d69b62ddbdfe7c42b76c57c8e3b4cc4,
     type: 3}
   cloudHazard: {fileID: 5778104370964235863, guid: 2274587ee6bb6524899fd4fe987edcb4,
+    type: 3}
+  alienHazard: {fileID: 7845862982638591657, guid: d7c20e08a1dfe1945a3a450ba9ef567f,
+    type: 3}
+  alienSpawnEffect: {fileID: 1149292408686901911, guid: 365caba342b58864bbd14a9ec9e5d173,
     type: 3}
