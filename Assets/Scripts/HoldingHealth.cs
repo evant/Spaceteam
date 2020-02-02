@@ -1,39 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HoldingHealth : MonoBehaviour
 {
-   /* public float health;
+    public float health;
     float maxHealth;
     public RawImage bar;
     float barWidth;
 
-	void Start ()
+    void Start ()
     {
         maxHealth = health;
         barWidth = bar.rectTransform.sizeDelta.x;
-
-        HealthBar();
     }
 	
 	void Update ()
     {
-        if (health == 0 )
+        health = 100f;
+        foreach (var problem in FindObjectsOfType<Problem>())
+        {
+            health -= problem.damage;
+        }
+        if (health <= 0)
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             //SceneManager.LoadScene("GameOver"); //???
         }
-    }
-
-    public void Damage()
-    {
-        health -= Time.deltaTime;   
-        health = Mathf.Clamp(health, 0f, 1000f);
-
         HealthBar();
-        
     }
 
     public void HealthBar()
@@ -45,5 +41,4 @@ public class HoldingHealth : MonoBehaviour
         innerBar.anchoredPosition = new Vector2(healthLeft/2 +6 , innerBar.anchoredPosition.y);
 
     }
-    */
 }
