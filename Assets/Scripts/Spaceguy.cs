@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,6 +7,8 @@ public class Spaceguy : MonoBehaviour
 {
     public float speed = 6.0f;
     public float reach = 0.8f;
+    public bool deadzo = false;
+    public float respawnTime = 8.0f;
 
     public LayerMask blockingLayer;
 
@@ -19,6 +22,7 @@ public class Spaceguy : MonoBehaviour
     private Texture2D mColorSwapTex;
     private Color[] mSpriteColors;
     private float repairProgress;
+    private float respawnRemaining;
 
     private void Start()
     {
@@ -62,6 +66,23 @@ public class Spaceguy : MonoBehaviour
         Debug.Log("on player joined: " + playerInput.playerIndex);
     }
 
+    public async void SetDead(bool dead)
+    {
+        
+        GetComponent<Animator>().SetBool("alive", !dead);
+        // If we're coming back to life, wait a bit before letting us move
+        if (!dead)
+        {
+            await Task.Delay(300);
+        }
+        deadzo = dead;
+        currentTarget = null;
+
+        reticle.transform.localPosition = Vector3.zero;
+        reticle.SetActive(false);
+        respawnRemaining = respawnTime;
+    }
+    
     public enum SwapIndex
     {
         Shirt1 = 0xfc,
@@ -95,8 +116,32 @@ public class Spaceguy : MonoBehaviour
 
     private void Update()
     {
+        if(!deadzo)
+        {
+            var action = playerInput.currentActionMap["action"].ReadValue<float>() > 0.5f;
+            UpdateMovement(action);
+            UpdateTargeting(action);
+        }
+        else
+        {
+            respawnRemaining -= Time.deltaTime;
+            if(respawnRemaining < 0)
+            {
+                SetDead(false);
+            }
+        }
+    }
+
+    public enum Direction { 
+        DOWN = 1,
+        UP = 2,
+        RIGHT = 3,
+        LEFT = 4,
+    }
+
+    private void UpdateMovement(bool action)
+    {
         var moveDirection = playerInput.currentActionMap["move"].ReadValue<Vector2>();
-        var action = playerInput.currentActionMap["action"].ReadValue<float>() > 0.5f;
         if (moveDirection.magnitude > 0.0f)
         {
             var canMove = true;
@@ -118,19 +163,20 @@ public class Spaceguy : MonoBehaviour
 
             if (movement.y < 0)
             {
-                animator.SetInteger("direction", 1);
+                animator.SetInteger("direction", (int) Direction.DOWN);
             }
             else if (movement.y > 0)
             {
-                animator.SetInteger("direction", 2);
+                animator.SetInteger("direction", (int) Direction.UP);
             }
             else if (movement.x > 0)
             {
-                animator.SetInteger("direction", 3);
+                animator.SetInteger("direction", (int) Direction.RIGHT);
             }
             else
             {
-                animator.SetInteger("direction", 4);
+                Debug.Log("left!");
+                animator.SetInteger("direction", (int) Direction.LEFT);
             }
         }
         else
@@ -138,7 +184,10 @@ public class Spaceguy : MonoBehaviour
             animator.SetInteger("direction", 0);
         }
         animator.SetBool("shooting", action);
+    }
 
+    private void UpdateTargeting(bool action)
+    {
         FindNextTarget();
 
         var currentProblem = currentTarget?.GetComponent<Problem>();
@@ -165,9 +214,30 @@ public class Spaceguy : MonoBehaviour
             repairProgress = 0;
             repairBar.transform.localScale = Vector3.zero;
         }
+        if (currentTarget != null && action)
+        {
+            var targetDirection = Vector2.SignedAngle(currentTarget.transform.position - transform.position, Vector2.up);
+
+            if (targetDirection >= -45 && targetDirection <= 45)
+            {
+                animator.SetInteger("direction", (int)Direction.UP);
+            }
+            else if (targetDirection >= 180 - 45 && targetDirection <= 180 + 45)
+            {
+                animator.SetInteger("direction", (int)Direction.DOWN);
+            }
+            else if (targetDirection > 0)
+            {
+                animator.SetInteger("direction", (int)Direction.RIGHT);
+            }
+            else
+            {
+                animator.SetInteger("direction", (int)Direction.LEFT);
+            }
+        }
     }
 
-    private void FindNextTarget()
+private void FindNextTarget()
     {
         var hazards = GameObject.FindGameObjectsWithTag("Hazard");
         float closestDistance = float.PositiveInfinity;
