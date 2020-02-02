@@ -16,4 +16,6 @@ Asset Credits:
   * Emote Balloon - https://opengameart.org/content/animated-emote-bubbles
   * Effects - https://opengameart.org/content/sci-fi-effects
   * Fire - https://opengameart.org/content/fire-ball-pixel
-  * 
+  * Alarm - https://freesound.org/people/metrostock99/sounds/345076
+  * Game Ambience - https://freesound.org/people/BurghRecords/sounds/415673/
+  * Menu Sound - https://freesound.org/people/goldguardtele/sounds/474881/
