@@ -18,7 +18,6 @@ public class HoldingHealth : MonoBehaviour
 	
 	void Update ()
     {
-        health = 100f;
         foreach (var problem in FindObjectsOfType<Problem>())
         {
             health -= problem.damage;
