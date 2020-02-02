@@ -5,15 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
-     public void playGame() {
+     public void playGame() 
+     {
         SceneManager.LoadScene("SampleScene");
-    }
+     }
 
-    public void loadMenu(){
+    public void loadMenu()
+    {
         SceneManager.LoadScene("MainMenu");
     }
 
-    public void loadInstructions(){
+    public void loadInstructions()
+    {
         SceneManager.LoadScene("Instructions");
     }
  
