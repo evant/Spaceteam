@@ -4788,7 +4788,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1596b4aa8a5b2234d923a8733cc3ec49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hazardSpawnTime: 4
+  hazardSpawnTime: 3
 --- !u!4 &1028096855
 Transform:
   m_ObjectHideFlags: 0
