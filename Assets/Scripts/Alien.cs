@@ -18,6 +18,9 @@ public class Alien : MonoBehaviour
     
     void Update()
     {
+        if (dieing)
+            return;
+
         var spaceguys = FindObjectsOfType<Spaceguy>();
         float closestDistance = float.PositiveInfinity;
         Spaceguy closestGuy = null;
