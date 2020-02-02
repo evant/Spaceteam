@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,6 +7,8 @@ public class Spaceguy : MonoBehaviour
 {
     public float speed = 6.0f;
     public float reach = 0.8f;
+    public bool deadzo = false;
+    public float respawnTime = 8.0f;
 
     public LayerMask blockingLayer;
 
@@ -19,6 +22,7 @@ public class Spaceguy : MonoBehaviour
     private Texture2D mColorSwapTex;
     private Color[] mSpriteColors;
     private float repairProgress;
+    private float respawnRemaining;
 
     private void Start()
     {
@@ -62,6 +66,23 @@ public class Spaceguy : MonoBehaviour
         Debug.Log("on player joined: " + playerInput.playerIndex);
     }
 
+    public async void SetDead(bool dead)
+    {
+        
+        GetComponent<Animator>().SetBool("alive", !dead);
+        // If we're coming back to life, wait a bit before letting us move
+        if (!dead)
+        {
+            await Task.Delay(300);
+        }
+        deadzo = dead;
+        currentTarget = null;
+
+        reticle.transform.localPosition = Vector3.zero;
+        reticle.SetActive(false);
+        respawnRemaining = respawnTime;
+    }
+    
     public enum SwapIndex
     {
         Shirt1 = 0xfc,
@@ -94,6 +115,23 @@ public class Spaceguy : MonoBehaviour
     }
 
     private void Update()
+    {
+        if(!deadzo)
+        {
+            UpdateMovement();
+            UpdateTargeting();
+        }
+        else
+        {
+            respawnRemaining -= Time.deltaTime;
+            if(respawnRemaining < 0)
+            {
+                SetDead(false);
+            }
+        }
+    }
+
+    private void UpdateMovement()
     {
         var moveDirection = playerInput.currentActionMap["move"].ReadValue<Vector2>();
         if (moveDirection.magnitude > 0.0f)
@@ -136,7 +174,10 @@ public class Spaceguy : MonoBehaviour
         {
             animator.SetInteger("direction", 0);
         }
+    }
 
+    private void UpdateTargeting()
+    {
         FindNextTarget();
 
         if (currentTarget != null && playerInput.currentActionMap["action"].ReadValue<float>() > 0.5f)

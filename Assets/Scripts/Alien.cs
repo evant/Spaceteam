@@ -6,6 +6,7 @@ using UnityEngine;
 public class Alien : MonoBehaviour
 {
     public float moveSpeed = 1f;
+    public float reach = 0.3f;
 
     private Vector2 moveDirection;
     public bool dieing = false;
@@ -19,22 +20,36 @@ public class Alien : MonoBehaviour
     {
         var spaceguys = FindObjectsOfType<Spaceguy>();
         float closestDistance = float.PositiveInfinity;
-        GameObject closestObject = null;
+        Spaceguy closestGuy = null;
         foreach (var guy in spaceguys)
         {
+            if (guy.deadzo)
+                continue;
+
             var distanace = Vector3.Distance(guy.transform.position, transform.position);
             if (distanace < closestDistance)
             {
-                closestObject = guy.gameObject;
+                closestGuy = guy;
                 closestDistance = distanace;
             }
         }
 
-        Vector3 direction = closestObject.transform.position - transform.position;
-        direction.Normalize();
-        moveDirection = direction;
+        if(closestDistance < reach)
+        {
+            closestGuy.SetDead(true);
+            // Walk in the opposite direciton for a bit now that you got em.
+            moveDirection = -moveDirection;
+            closestGuy = null;
+        }
 
-        GetComponent<SpriteRenderer>().flipX = direction.x < 0;
+        if (closestGuy != null)
+        {
+            Vector3 direction = closestGuy.transform.position - transform.position;
+            direction.Normalize();
+            moveDirection = direction;
+        }
+
+        GetComponent<SpriteRenderer>().flipX = moveDirection.x < 0;
     }
 
     public async void Die()
