@@ -116,4 +116,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   repairAmount: 40
-  hazardType: 3
+  hazardType: 2

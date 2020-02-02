@@ -30,15 +30,6 @@ public class Spaceguy : MonoBehaviour
         private set;
     }
 
-    private HazardSpawnPoint.HazardType[] PlayerAbilities =
-    {
-        
-        HazardSpawnPoint.HazardType.YellowCloud,
-        HazardSpawnPoint.HazardType.Lightning,
-        HazardSpawnPoint.HazardType.Fire
-    };
-
-
     private void Start()
     {
         boxCollider = GetComponent<BoxCollider2D>();
