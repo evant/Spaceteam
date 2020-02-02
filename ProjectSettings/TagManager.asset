@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Reticle
   - Hazard
+  - Repair
   layers:
   - Default
   - TransparentFX

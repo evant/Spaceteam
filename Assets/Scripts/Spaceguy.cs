@@ -7,18 +7,18 @@ public class Spaceguy : MonoBehaviour
     public float speed = 6.0f;
     public float reach = 0.8f;
 
-    public Color shirtColor1;
-    public Color shirtColor2;
     public LayerMask blockingLayer;
 
     private BoxCollider2D boxCollider;
     private GameObject reticle;
+    private GameObject repairBar;
     private GameObject currentTarget;
     private Animator animator;
     private PlayerInput playerInput;
 
     private Texture2D mColorSwapTex;
     private Color[] mSpriteColors;
+    private float repairProgress;
 
     private void Start()
     {
@@ -26,6 +26,9 @@ public class Spaceguy : MonoBehaviour
         boxCollider.enabled = false;
 
         animator = GetComponent<Animator>();
+
+        reticle = FindChildTagged("Reticle");
+        repairBar = FindChildTagged("Repair");
 
         var spriteRenderer = GetComponent<SpriteRenderer>();
         Texture2D colorSwapTex = new Texture2D(256, 1, TextureFormat.RGBA32, false, false);
@@ -87,7 +90,6 @@ public class Spaceguy : MonoBehaviour
         SwapColor(SwapIndex.Shirt2, color2);
         mColorSwapTex.Apply();
 
-        reticle = FindChildTagged("Reticle");
         reticle.GetComponent<SpriteRenderer>().color = color1;
     }
 
@@ -136,6 +138,29 @@ public class Spaceguy : MonoBehaviour
         }
 
         FindNextTarget();
+
+        if (currentTarget != null && playerInput.currentActionMap["action"].ReadValue<float>() > 0.5f)
+        {
+            if (repairProgress == 0)
+            {
+                repairProgress = 100f;
+            }
+            else
+            {
+                repairProgress -= 20f * Time.deltaTime;
+            }
+            repairBar.transform.localScale.Set(repairProgress / 100f, 1f, 1f);
+            repairBar.transform.Translate(new Vector2(0, 1f));
+            if (repairProgress <= 0)
+            {
+                Destroy(currentTarget);
+                currentTarget = null;
+            }
+        }
+        else
+        {
+            repairProgress = 0;
+        }
     }
 
     private void FindNextTarget()
