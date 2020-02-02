@@ -24,9 +24,6 @@ public class Spaceguy : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
         boxCollider.enabled = false;
 
-        reticle = FindChildTagged("Reticle");
-        reticle.GetComponent<SpriteRenderer>().color = shirtColor1;
-
         animator = GetComponent<Animator>();
 
         var spriteRenderer = GetComponent<SpriteRenderer>();
@@ -40,11 +37,25 @@ public class Spaceguy : MonoBehaviour
         mSpriteColors = new Color[colorSwapTex.width];
         mColorSwapTex = colorSwapTex;
 
-        SwapColor(SwapIndex.Shirt1, shirtColor1);
-        SwapColor(SwapIndex.Shirt2, shirtColor2);
-        colorSwapTex.Apply();
-
         playerInput = GetComponent<PlayerInput>();
+        switch (playerInput.playerIndex)
+        {
+            case 0:
+                setShirtColor(new Color(0.988f, 0.996f, 1f), new Color(0.859f, 0.859f, 0.859f));
+                break;
+            case 1:
+                setShirtColor(new Color(0.996f, 0.91f, 0.2f), new Color(0.851f, 0.776f, 0.176f));
+                break;
+            case 2:
+                setShirtColor(new Color(0.216f, 1f, 0.149f), new Color(0.161f, 0.741f, 0.11f));
+                break;
+            case 3:
+                setShirtColor(new Color(0.976f, 0.161f, 1f), new Color(0.71f, 0.114f, 0.725f));
+                break;
+        }
+
+
+        Debug.Log("on player joined: " + playerInput.playerIndex);
     }
 
     public enum SwapIndex
@@ -68,6 +79,15 @@ public class Spaceguy : MonoBehaviour
         }
 
         return null;
+    }
+
+    private void setShirtColor(Color color1, Color color2) { 
+        SwapColor(SwapIndex.Shirt1, color1);
+        SwapColor(SwapIndex.Shirt2, color2);
+        mColorSwapTex.Apply();
+
+        reticle = FindChildTagged("Reticle");
+        reticle.GetComponent<SpriteRenderer>().color = color1;
     }
 
     private void Update()
