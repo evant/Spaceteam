@@ -18,6 +18,7 @@ public class HoldingHealth : MonoBehaviour
 	
 	void Update ()
     {
+        health = maxHealth;
         foreach (var problem in FindObjectsOfType<Problem>())
         {
             health -= problem.damage;
