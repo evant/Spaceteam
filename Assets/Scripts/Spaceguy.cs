@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Spaceguy : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class Spaceguy : MonoBehaviour
     private GameObject reticle;
     private GameObject currentTarget;
     private Animator animator;
+    private PlayerInput playerInput;
 
     private Texture2D mColorSwapTex;
     private Color[] mSpriteColors;
@@ -41,6 +43,8 @@ public class Spaceguy : MonoBehaviour
         SwapColor(SwapIndex.Shirt1, shirtColor1);
         SwapColor(SwapIndex.Shirt2, shirtColor2);
         colorSwapTex.Apply();
+
+        playerInput = GetComponent<PlayerInput>();
     }
 
     public enum SwapIndex
@@ -68,7 +72,7 @@ public class Spaceguy : MonoBehaviour
 
     private void Update()
     {
-        var moveDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        var moveDirection = playerInput.currentActionMap["move"].ReadValue<Vector2>();
         if (moveDirection.magnitude > 0.0f)
         {
             var canMove = true;
