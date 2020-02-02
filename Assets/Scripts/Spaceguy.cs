@@ -118,8 +118,9 @@ public class Spaceguy : MonoBehaviour
     {
         if(!deadzo)
         {
-            UpdateMovement();
-            UpdateTargeting();
+            var action = playerInput.currentActionMap["action"].ReadValue<float>() > 0.5f;
+            UpdateMovement(action);
+            UpdateTargeting(action);
         }
         else
         {
@@ -131,7 +132,14 @@ public class Spaceguy : MonoBehaviour
         }
     }
 
-    private void UpdateMovement()
+    public enum Direction { 
+        DOWN = 1,
+        UP = 2,
+        RIGHT = 3,
+        LEFT = 4,
+    }
+
+    private void UpdateMovement(bool action)
     {
         var moveDirection = playerInput.currentActionMap["move"].ReadValue<Vector2>();
         if (moveDirection.magnitude > 0.0f)
@@ -148,41 +156,43 @@ public class Spaceguy : MonoBehaviour
                 }
             }
 
-            if (canMove)
+            if (canMove && !action)
             {
                 transform.Translate(movement);
             }
 
             if (movement.y < 0)
             {
-                animator.SetInteger("direction", 1);
+                animator.SetInteger("direction", (int) Direction.DOWN);
             }
             else if (movement.y > 0)
             {
-                animator.SetInteger("direction", 2);
+                animator.SetInteger("direction", (int) Direction.UP);
             }
             else if (movement.x > 0)
             {
-                animator.SetInteger("direction", 3);
+                animator.SetInteger("direction", (int) Direction.RIGHT);
             }
             else
             {
-                animator.SetInteger("direction", 4);
+                Debug.Log("left!");
+                animator.SetInteger("direction", (int) Direction.LEFT);
             }
         }
         else
         {
             animator.SetInteger("direction", 0);
         }
+        animator.SetBool("shooting", action);
     }
 
-    private void UpdateTargeting()
+    private void UpdateTargeting(bool action)
     {
         FindNextTarget();
 
         var currentProblem = currentTarget?.GetComponent<Problem>();
 
-        if (currentProblem != null && playerInput.currentActionMap["action"].ReadValue<float>() > 0.5f)
+        if (currentProblem != null && action)
         {
             if (repairProgress == 0)
             {
@@ -204,9 +214,30 @@ public class Spaceguy : MonoBehaviour
             repairProgress = 0;
             repairBar.transform.localScale = Vector3.zero;
         }
+        if (currentTarget != null && action)
+        {
+            var targetDirection = Vector2.SignedAngle(currentTarget.transform.position - transform.position, Vector2.up);
+
+            if (targetDirection >= -45 && targetDirection <= 45)
+            {
+                animator.SetInteger("direction", (int)Direction.UP);
+            }
+            else if (targetDirection >= 180 - 45 && targetDirection <= 180 + 45)
+            {
+                animator.SetInteger("direction", (int)Direction.DOWN);
+            }
+            else if (targetDirection > 0)
+            {
+                animator.SetInteger("direction", (int)Direction.RIGHT);
+            }
+            else
+            {
+                animator.SetInteger("direction", (int)Direction.LEFT);
+            }
+        }
     }
 
-    private void FindNextTarget()
+private void FindNextTarget()
     {
         var hazards = GameObject.FindGameObjectsWithTag("Hazard");
         float closestDistance = float.PositiveInfinity;
