@@ -30,6 +30,10 @@ public class HoldingHealth : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             SceneManager.LoadScene("GameOver");
         }
+        else if (health <= 30)
+        {
+            FindObjectOfType<ShakeBehavior>().TriggerShake();
+        }
         HealthBar();
     }
 
