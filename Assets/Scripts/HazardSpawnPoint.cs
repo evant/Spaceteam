@@ -15,8 +15,6 @@ public class HazardSpawnPoint : MonoBehaviour
         Alien
     }
 
-    private const float alienSpawnDelay = 10.0f;
-
     public HazardType hazardType = HazardType.Fire;
     
     public GameObject fireHazard;
@@ -25,16 +23,10 @@ public class HazardSpawnPoint : MonoBehaviour
     public GameObject alienHazard;
     public GameObject alienSpawnEffect;
 
-    private float timeUntilNextSpawn = alienSpawnDelay;
-
     public bool HasHazard 
     { 
         get
         {
-            if(hazardType == HazardType.Alien)
-            {
-                return timeUntilNextSpawn > 0;
-            }
             return transform.childCount > 0;
         } 
     }
@@ -46,10 +38,7 @@ public class HazardSpawnPoint : MonoBehaviour
 
     void Update()
     {
-        if (timeUntilNextSpawn > 0)
-        {
-            timeUntilNextSpawn -= Time.deltaTime;
-        }
+        
     }
 
     public async void SpawnHazard()
@@ -66,7 +55,6 @@ public class HazardSpawnPoint : MonoBehaviour
                 GameObject.Instantiate(cloudHazard, transform);
                 break;
             case HazardType.Alien:
-                timeUntilNextSpawn = alienSpawnDelay;
                 var effect = GameObject.Instantiate(alienSpawnEffect, transform);
                 await Task.Delay(250);
                 GameObject.Instantiate(alienHazard, transform.position, Quaternion.identity);

@@ -5,6 +5,7 @@ public class Problem : MonoBehaviour
 {
     public float damage;
     public float repairAmount;
+    public HazardSpawnPoint.HazardType hazardType;
 
     // Use this for initialization
     void Start()

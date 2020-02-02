@@ -24,6 +24,21 @@ public class Spaceguy : MonoBehaviour
     private float repairProgress;
     private float respawnRemaining;
 
+    public HazardSpawnPoint.HazardType playerAbility
+    {
+        get;
+        private set;
+    }
+
+    private HazardSpawnPoint.HazardType[] PlayerAbilities =
+    {
+        
+        HazardSpawnPoint.HazardType.YellowCloud,
+        HazardSpawnPoint.HazardType.Lightning,
+        HazardSpawnPoint.HazardType.Fire
+    };
+
+
     private void Start()
     {
         boxCollider = GetComponent<BoxCollider2D>();
@@ -51,15 +66,19 @@ public class Spaceguy : MonoBehaviour
         {
             case 0:
                 setShirtColor(new Color(0.988f, 0.996f, 1f), new Color(0.859f, 0.859f, 0.859f));
+                playerAbility = HazardSpawnPoint.HazardType.Fire;
                 break;
             case 1:
                 setShirtColor(new Color(0.996f, 0.91f, 0.2f), new Color(0.851f, 0.776f, 0.176f));
+                playerAbility = HazardSpawnPoint.HazardType.YellowCloud;
                 break;
             case 2:
                 setShirtColor(new Color(0.216f, 1f, 0.149f), new Color(0.161f, 0.741f, 0.11f));
+                playerAbility = HazardSpawnPoint.HazardType.Lightning;
                 break;
             case 3:
                 setShirtColor(new Color(0.976f, 0.161f, 1f), new Color(0.71f, 0.114f, 0.725f));
+                playerAbility = HazardSpawnPoint.HazardType.Alien;
                 break;
         }
 
@@ -236,16 +255,27 @@ public class Spaceguy : MonoBehaviour
         }
     }
 
-private void FindNextTarget()
+    private void FindNextTarget()
     {
         var hazards = GameObject.FindGameObjectsWithTag("Hazard");
         float closestDistance = float.PositiveInfinity;
         GameObject closestObject = null;
         foreach (var hazard in hazards)
         {
+            var problem = hazard.GetComponent<Problem>();
+            if (problem != null)
+            {
+                if (problem.hazardType != playerAbility)
+                    continue;
+            }
+            
             var alien = hazard.GetComponent<Alien>();
+            if (alien != null && playerAbility != HazardSpawnPoint.HazardType.Alien)
+                continue;
+
             if (alien != null && alien.dieing)
                 continue;   // Don't target dieing aliens you monster!
+
 
             var distanace = Vector3.Distance(hazard.transform.position, transform.position);
             
