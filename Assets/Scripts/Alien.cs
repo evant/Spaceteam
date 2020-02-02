@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class Alien : MonoBehaviour
@@ -7,6 +8,7 @@ public class Alien : MonoBehaviour
     public float moveSpeed = 1f;
 
     private Vector2 moveDirection;
+    public bool dieing = false;
 
     void Start()
     {
@@ -35,9 +37,20 @@ public class Alien : MonoBehaviour
         GetComponent<SpriteRenderer>().flipX = direction.x < 0;
     }
 
+    public async void Die()
+    {
+        dieing = true;
+        GetComponent<Animator>().SetTrigger("Die");
+        await Task.Delay(1500);
+        Destroy(gameObject);
+    }
+
     private void FixedUpdate()
     {
-        moveAlien(moveDirection);
+        if (!dieing)
+        {
+            moveAlien(moveDirection);
+        }
     }
 
     void moveAlien(Vector2 direction)

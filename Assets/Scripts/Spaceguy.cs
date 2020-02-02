@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Spaceguy : MonoBehaviour
@@ -114,15 +115,25 @@ public class Spaceguy : MonoBehaviour
             animator.SetInteger("direction", 0);
         }
 
-        var fires = GameObject.FindGameObjectsWithTag("Hazard");
+        FindNextTarget();
+    }
+
+    private void FindNextTarget()
+    {
+        var hazards = GameObject.FindGameObjectsWithTag("Hazard");
         float closestDistance = float.PositiveInfinity;
         GameObject closestObject = null;
-        foreach(var fire in fires)
+        foreach (var hazard in hazards)
         {
-            var distanace = Vector3.Distance(fire.transform.position, transform.position);
-            if(distanace < closestDistance)
+            var alien = hazard.GetComponent<Alien>();
+            if (alien != null && alien.dieing)
+                continue;   // Don't target dieing aliens you monster!
+
+            var distanace = Vector3.Distance(hazard.transform.position, transform.position);
+            
+            if (distanace < closestDistance)
             {
-                closestObject = fire;
+                closestObject = hazard;
                 closestDistance = distanace;
             }
         }
@@ -142,6 +153,13 @@ public class Spaceguy : MonoBehaviour
             currentTarget = null;
             reticle.transform.localPosition = Vector3.zero;
             reticle.SetActive(false);
+        }
+
+        var targetAlien = currentTarget?.GetComponent<Alien>();
+        if(targetAlien != null && playerInput.currentActionMap["action"].ReadValue<float>() > 0.5f)
+        {
+            targetAlien.Die();
+            currentTarget = null;
         }
     }
 }
