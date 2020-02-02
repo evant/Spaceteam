@@ -10,11 +10,13 @@ public class HoldingHealth : MonoBehaviour
     float maxHealth;
     public RawImage bar;
     float barWidth;
+    private AudioSource audioSource;
 
     void Start ()
     {
         maxHealth = health;
         barWidth = bar.rectTransform.sizeDelta.x;
+        audioSource = GetComponent<AudioSource>();
     }
 	
 	void Update ()
@@ -33,6 +35,16 @@ public class HoldingHealth : MonoBehaviour
         else if (health <= 30)
         {
             FindObjectOfType<ShakeBehavior>().TriggerShake();
+        }
+
+        if (health <= 10)
+        {
+            if (!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
+        } else { 
+            audioSource.Stop();
         }
         HealthBar();
     }
