@@ -139,7 +139,7 @@ public class Spaceguy : MonoBehaviour
 
         FindNextTarget();
 
-        var currentProblem = currentTarget.GetComponent<Problem>();
+        var currentProblem = currentTarget?.GetComponent<Problem>();
 
         if (currentProblem != null && playerInput.currentActionMap["action"].ReadValue<float>() > 0.5f)
         {
