@@ -175,7 +175,6 @@ public class Spaceguy : MonoBehaviour
             }
             else
             {
-                Debug.Log("left!");
                 animator.SetInteger("direction", (int) Direction.LEFT);
             }
         }
