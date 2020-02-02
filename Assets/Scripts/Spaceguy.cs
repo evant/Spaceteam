@@ -96,6 +96,7 @@ public class Spaceguy : MonoBehaviour
     private void Update()
     {
         var moveDirection = playerInput.currentActionMap["move"].ReadValue<Vector2>();
+        var action = playerInput.currentActionMap["action"].ReadValue<float>() > 0.5f;
         if (moveDirection.magnitude > 0.0f)
         {
             var canMove = true;
@@ -110,7 +111,7 @@ public class Spaceguy : MonoBehaviour
                 }
             }
 
-            if (canMove)
+            if (canMove && !action)
             {
                 transform.Translate(movement);
             }
@@ -136,12 +137,13 @@ public class Spaceguy : MonoBehaviour
         {
             animator.SetInteger("direction", 0);
         }
+        animator.SetBool("shooting", action);
 
         FindNextTarget();
 
         var currentProblem = currentTarget?.GetComponent<Problem>();
 
-        if (currentProblem != null && playerInput.currentActionMap["action"].ReadValue<float>() > 0.5f)
+        if (currentProblem != null && action)
         {
             if (repairProgress == 0)
             {
