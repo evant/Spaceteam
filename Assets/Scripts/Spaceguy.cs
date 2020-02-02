@@ -10,7 +10,6 @@ public class Spaceguy : MonoBehaviour
     public LayerMask blockingLayer;
 
     private BoxCollider2D boxCollider;
-    private GameObject fire;
     private GameObject reticle;
     private GameObject currentTarget;
     private Animator animator;
@@ -23,8 +22,9 @@ public class Spaceguy : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
         boxCollider.enabled = false;
 
-        fire = transform.GetChild(0).gameObject;
         reticle = FindChildTagged("Reticle");
+        reticle.GetComponent<SpriteRenderer>().color = shirtColor1;
+
         animator = GetComponent<Animator>();
 
         var spriteRenderer = GetComponent<SpriteRenderer>();
@@ -77,15 +77,10 @@ public class Spaceguy : MonoBehaviour
             var hit = Physics2D.Raycast(center, moveDirection.normalized);
             if (hit.collider != null)
             {
-                fire.transform.position = hit.point;
                 if (hit.distance < movement.magnitude + 0.2)
                 {
                     canMove = false;
                 }
-            }
-            else
-            {
-                fire.transform.position = transform.position;
             }
 
             if (canMove)
